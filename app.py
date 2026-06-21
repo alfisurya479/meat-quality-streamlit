@@ -1,7 +1,7 @@
 import streamlit as st
 import numpy as np
 from PIL import Image
-import tflite_runtime.interpreter as tflite
+import tensorflow as tf
 
 st.set_page_config(
     page_title="Meat Quality Classification",
@@ -16,7 +16,7 @@ IMG_SIZE = (128, 128)
 
 @st.cache_resource
 def load_tflite_model():
-    interpreter = tflite.Interpreter(model_path="model.tflite")
+    interpreter = tf.lite.Interpreter(model_path="model.tflite")
     interpreter.allocate_tensors()
     return interpreter
 
@@ -38,7 +38,7 @@ uploaded_file = st.file_uploader(
 
 if uploaded_file is not None:
     image = Image.open(uploaded_file).convert("RGB")
-    st.image(image, caption="Gambar yang diupload", use_container_width=True)
+    st.image(image, caption="Gambar yang diupload", use_column_width=True)
 
     img = image.resize(IMG_SIZE)
 
